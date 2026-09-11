@@ -1,0 +1,9 @@
+[build]
+  publish = "netlify_site"
+  command = "pip install -r requirements-deploy.txt && python src/dashboard/build_static_site.py"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
