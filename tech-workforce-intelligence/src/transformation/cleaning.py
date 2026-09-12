@@ -177,6 +177,10 @@ def main():
 
 
 def write_markdown_report(r):
+    ai_rows = "\n".join(
+        f"| {category} | {count:,} |"
+        for category, count in r["ai_signal_breakdown"].items()
+    )
     md = f"""# DATA QUALITY REPORT
 
 Generated from `data/raw/layoffs_raw.csv` -> `data/processed/layoffs_clean.csv`
@@ -213,7 +217,9 @@ Generated from `data/raw/layoffs_raw.csv` -> `data/processed/layoffs_clean.csv`
 
 ## AI Signal Breakdown
 
-{json.dumps(r['ai_signal_breakdown'], indent=2)}
+| AI Signal Category | Records |
+|---|---|
+{ai_rows}
 
 **Methodology note:** The source (Layoffs.fyi) only populates the explicit
 "AI Mentioned" field for a subset of records (recent events). Records without

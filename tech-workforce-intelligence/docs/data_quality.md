@@ -34,12 +34,12 @@ Generated from `data/raw/layoffs_raw.csv` -> `data/processed/layoffs_clean.csv`
 
 ## AI Signal Breakdown
 
-{
-  "Unknown": 3363,
-  "AI-mentioned (weak keyword signal only)": 534,
-  "No AI signal (source-labeled)": 529,
-  "Explicit AI-related (source-labeled)": 169
-}
+| AI Signal Category | Records |
+|---|---|
+| Unknown | 3,363 |
+| AI-mentioned (weak keyword signal only) | 534 |
+| No AI signal (source-labeled) | 529 |
+| Explicit AI-related (source-labeled) | 169 |
 
 **Methodology note:** The source (Layoffs.fyi) only populates the explicit
 "AI Mentioned" field for a subset of records (recent events). Records without

@@ -272,9 +272,12 @@ def country_color_map(countries):
 
 
 def style_fig(fig, height=CHART_HEIGHT):
+    left_margin = 150 if any(
+        getattr(trace, "orientation", None) == "h" for trace in fig.data
+    ) else 58
     fig.update_layout(
         height=height,
-        margin=dict(l=58, r=24, t=72, b=52),
+        margin=dict(l=left_margin, r=24, t=72, b=52),
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
         font=dict(family="Inter, sans-serif", color="#243b53", size=12),
@@ -385,6 +388,21 @@ sel_countries = st.sidebar.multiselect("Country", countries, default=[])
 ai_cats = sorted(df["AI_Signal_Category"].dropna().unique())
 sel_ai = st.sidebar.multiselect("AI Signal", ai_cats, default=[])
 company_search = st.sidebar.text_input("Company contains", placeholder="Search by company name")
+matching_companies = []
+if company_search:
+    matching_companies = sorted(
+        df.loc[
+            df["Company"].str.contains(company_search, case=False, na=False, regex=False),
+            "Company",
+        ].unique()
+    )
+    selected_company = st.sidebar.selectbox(
+        "Matching companies",
+        ["No company selected"] + matching_companies,
+        label_visibility="collapsed",
+    )
+else:
+    selected_company = "No company selected"
 
 fdf = df[df["Year"].isin(sel_years)].copy()
 if sel_industries:
@@ -393,8 +411,11 @@ if sel_countries:
     fdf = fdf[fdf["Country"].isin(sel_countries)]
 if sel_ai:
     fdf = fdf[fdf["AI_Signal_Category"].isin(sel_ai)]
-if company_search:
-    fdf = fdf[fdf["Company"].str.contains(company_search, case=False, na=False, regex=False)]
+if selected_company != "No company selected":
+    fdf = fdf[fdf["Company"] == selected_company]
+    st.sidebar.caption(
+        f"Selected company: {selected_company} ({len(fdf):,} records)"
+    )
 
 if fdf.empty:
     st.warning("No records match the current filters. Adjust the filters to continue.")
