@@ -1,0 +1,2 @@
+Streamlit Cloud main file: tech-workforce-intelligence-netlify-upload/src/dashboard/app.py
+This file ensures Streamlit Cloud rebuilds on next push.
