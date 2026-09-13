@@ -6,8 +6,14 @@ secondaryBackgroundColor = "#FFFFFF"
 textColor = "#243B53"
 font = "sans serif"
 
+[client]
+showErrorDetails = true
+toolbarMode = "minimal"
+
 [server]
 headless = true
+port = 8501
+maxUploadSize = 200
 
 [browser]
 gatherUsageStats = false
