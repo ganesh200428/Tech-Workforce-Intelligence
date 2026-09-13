@@ -272,9 +272,16 @@ def country_color_map(countries):
 
 
 def style_fig(fig, height=CHART_HEIGHT):
+    left_margin = 150 if any(
+        getattr(trace, "orientation", None) == "h" for trace in fig.data
+    ) else 58
+    has_legend = len(fig.data) > 1 or any(
+        getattr(trace, "type", None) == "pie" for trace in fig.data
+    )
+    bottom_margin = 52 + (44 if has_legend else 0)
     fig.update_layout(
         height=height,
-        margin=dict(l=58, r=24, t=72, b=52),
+        margin=dict(l=left_margin, r=24, t=72, b=bottom_margin),
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
         font=dict(family="Inter, sans-serif", color="#243b53", size=12),
@@ -287,10 +294,10 @@ def style_fig(fig, height=CHART_HEIGHT):
         ),
         legend=dict(
             orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="right",
-            x=1,
+            yanchor="top",
+            y=-0.18,
+            xanchor="center",
+            x=0.5,
             font=dict(size=11, color="#52606d"),
             bgcolor="rgba(255,255,255,0.85)",
         ),
