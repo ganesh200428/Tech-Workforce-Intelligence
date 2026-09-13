@@ -323,8 +323,14 @@ def style_fig(fig, height=CHART_HEIGHT):
     )
     for trace in fig.data:
         if hasattr(trace, "marker") and trace.marker is not None:
-            trace.marker.line = dict(color="#ffffff", width=0.8)
-            trace.marker.opacity = 0.92
+            try:
+                trace.marker.line = dict(color="#ffffff", width=0.8)
+            except (ValueError, AttributeError):
+                pass
+            try:
+                trace.marker.opacity = 0.92
+            except (ValueError, AttributeError):
+                pass
     return fig
 
 
